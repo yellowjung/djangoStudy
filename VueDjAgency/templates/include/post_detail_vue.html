@@ -49,6 +49,14 @@
           console.log("FETCH  CATE-TAG-LIST GET ERR.RESPONSE", err.response);
           alert(`${err.response.status} ${err.response.statusText}`)
         });
+      },
+
+      serverpage(category='', tag=''){
+        console.log("serverpage()...", category, tag);
+        if(category && tag) alert('serverPage() both args Error: ${category} and ${tag}');
+        else if(category) location.href = '/?category=${category}#portfolio';
+        else if(tag) location.href = '/?tag=${tag}#portfolio';
+        else location.href = '/#portfolio';
       }
     }
   }

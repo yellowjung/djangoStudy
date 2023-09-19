@@ -6,17 +6,26 @@
     data(){
       return {
         postList: [],
+        category: '',
+        tag: ''
       }
     },
 
     created(){
       console.log("created()...");
+      const params = new URL(location).searchParams;
+      this.category = params.get('category');
+      this.tag = params.get("tag");
       this.fetchPostList();
     },
 
     methods: {
       fetchPostList(){
-        console.log("fetchPostList()...");
+        console.log("fetchPostList()...", this.category, this.tag);
+        let getUrl = '';
+        if(this.category) getUrl = '/api/post/list/?category=${this.category}';
+        else if(this.tag) getUrl = '/api/post/list/?tag=${this.tga}';
+        else geturl = '/api/post/list/';
 
         axios.get('/api/post/list/')
         .then(res => {

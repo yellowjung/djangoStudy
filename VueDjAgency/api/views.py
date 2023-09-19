@@ -7,7 +7,19 @@ from api.utils import obj_to_post, prev_next_post
 from blog.models import Category, Post, Tag
 
 class ApiPostLV(BaseListView):
-    model = Post
+    # model = Post
+    
+    def get_queryset(self):
+        paramCate = self.request.Get.get('category')
+        paramTag = self.request.Get.get('tag')
+        if paramCate:
+            qs = Post.objects.filter(category__name__iexact=paramCate)
+        elif paramTag:
+            qs = Post.objects.filter(tags__name__iexact=paramTag)
+        else:
+            qs = Post.objects.all()
+        return qs
+            
     
     def render_to_response(self, context, **response_kwargs):
         qs = context['object_list']
