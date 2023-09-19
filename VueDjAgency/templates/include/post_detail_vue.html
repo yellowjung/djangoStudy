@@ -1,34 +1,40 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-  const PostListApp = { 
+  const PostDetailApp = { 
     delimiters: ['[[',']]'],
     data(){
       return {
-        postList: [],
+        post: {},
+        prevPost: {},
+        nextPost: {}
       }
     },
 
     created(){
       console.log("created()...");
-      this.fetchPostList();
+      const postId = location.pathname.split('/')[3]
+      this.fetchPostDeatail(postId);
+      this.fetchPrevDetail()
     },
 
     methods: {
-      fetchPostList(){
-        console.log("fetchPostList()...");
+      fetchPostDeatail(postId){
+        console.log("fetchPostDeatail()...");
 
-        axios.get('/api/post/list/')
+        axios.get(`/api/post/${postId}/`)
         .then(res => {
-          console.log("FETCH POSTLIST GET RES", res);
-          this.postList = res.data;
+          console.log("FETCH POSTDETAIL GET RES", res);
+          this.post = res.data;
+          this.prevPost = res.prevPost;
+          this.nextPost = red.nextPost;
         })
         .catch(err => {
-          console.log("FETCH POSTLIST GET ERR.RESPONSE", err.response);
-          alert('${err.response.status} ${err.response.statusText}')
+          console.log("FETCH POSTDETAIL GET ERR.RESPONSE", err.response);
+          alert(`${err.response.status} ${err.response.statusText}`)
         });
       }
     }
   }
-  Vue.createApp(PostListApp).mount('#page-top')
+  Vue.createApp(PostDetailApp).mount('#page-top')
 </script>
