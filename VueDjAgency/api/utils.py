@@ -44,7 +44,7 @@ def prev_next_post(obj):
             'title' : prevObj.title
         }
     except obj.DoesNotExist:
-        prevdict = {}
+        prevDict = {}
         
 
     try:
