@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views import View
 from django.views.generic.list import BaseListView
 from django.views.generic.detail import BaseDetailView
-from api.utils import obj_to_post, prev_next_post
+from api.utils import obj_to_comment, obj_to_post, prev_next_post
 
 from blog.models import Category, Post, Tag
 
@@ -35,10 +35,14 @@ class ApiPostDV(BaseDetailView):
         post = obj_to_post(obj)
         prevPost, nextPost = prev_next_post(obj)
         
+        qsComment = obj.commnet_set.all()
+        commnetList = [obj_to_comment(obj)for obj in qsComment]
+        
         jsonData = {
             'post' : post,
             'prevPost' : prevPost,
-            'nextPost' : nextPost
+            'nextPost' : nextPost,
+            'commnetList' : commnetList,
         }
         return JsonResponse(data = jsonData, safe = True, status = 200)
 

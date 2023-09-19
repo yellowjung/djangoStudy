@@ -9,6 +9,7 @@
         prevPost: {},
         nextPost: {},
         tagList: [],
+        commentList: []
       }
     },
 
@@ -26,9 +27,10 @@
         axios.get(`/api/post/${postId}/`)
         .then(res => {
           console.log("FETCH POSTDETAIL GET RES", res);
-          this.post = res.data;
-          this.prevPost = res.prevPost;
-          this.nextPost = red.nextPost;
+          this.post = res.data.post;
+          this.prevPost = res.data.prevPost;
+          this.nextPost = res.data.nextPost;
+          this.commnetList = res.data.commentList;
         })
         .catch(err => {
           console.log("FETCH POSTDETAIL GET ERR.RESPONSE", err.response);
