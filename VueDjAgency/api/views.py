@@ -1,17 +1,18 @@
 from django.http import JsonResponse
 from django.views import View
 from django.views.generic.list import BaseListView
+from django.views.generic.edit import BaseCreateView
 from django.views.generic.detail import BaseDetailView
 from api.utils import obj_to_comment, obj_to_post, prev_next_post
 
-from blog.models import Category, Post, Tag
+from blog.models import Category, Comment, Post, Tag
 
 class ApiPostLV(BaseListView):
     # model = Post
     
     def get_queryset(self):
-        paramCate = self.request.Get.get('category')
-        paramTag = self.request.Get.get('tag')
+        paramCate = self.request.GET.get('category')
+        paramTag = self.request.GET.get('tag')
         if paramCate:
             qs = Post.objects.filter(category__name__iexact=paramCate)
         elif paramTag:
@@ -35,14 +36,14 @@ class ApiPostDV(BaseDetailView):
         post = obj_to_post(obj)
         prevPost, nextPost = prev_next_post(obj)
         
-        qsComment = obj.commnet_set.all()
-        commnetList = [obj_to_comment(obj)for obj in qsComment]
+        qsComment = obj.comment_set.all()
+        commentList = [obj_to_comment(obj)for obj in qsComment]
         
         jsonData = {
             'post' : post,
             'prevPost' : prevPost,
             'nextPost' : nextPost,
-            'commnetList' : commnetList,
+            'commentList' : commentList,
         }
         return JsonResponse(data = jsonData, safe = True, status = 200)
 
@@ -66,3 +67,15 @@ class ApiPostLikeDV(BaseDetailView):
         obj.like += 1
         obj.save()
         return JsonResponse(data=obj.like, safe=False, status=200)
+    
+class ApiCommentCV(BaseCreateView):
+    model = Comment
+    fields = '__all__'
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        comment = obj_to_comment(self.object)
+        return JsonResponse(data= comment, safe= True, status=201)
+    
+    def form_invalid(self, form):
+        return JsonResponse(data=form.errors, safe=True, status=400)
