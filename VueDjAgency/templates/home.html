@@ -16,6 +16,10 @@
   .my-post-title{
     height: 60px;
   }
+
+  .my-link:hover{
+    cusor: pointer;
+  }
 </style>
 
 {% endblock%}
@@ -55,20 +59,20 @@
         </div>
       </div>
     </div>
-
-    <nav aria-label="Page navigation example">
+    <!-- My Pagination -->
       <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">Previ</a>
+        <li :class="prevClass">
+          <div @click="prevPage" class="page-link">Prev</div>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
+        
+        <li v-for="page in pages" :class="pageClass(page)">
+          <div @click="pageChanged(page)" class="page-link">[[ page ]]</div>
+        </li>
+        
+        <li :class="nextClass">
+          <div @click="nextPage" class="page-link">Next</div>
         </li>
       </ul>
-    </nav>
 
   </section>
   <!-- Iam -->
