@@ -32,7 +32,7 @@ def obj_to_post(obj, flag=True):
     del post['_state'], post['category_id'], post['create_dt']
     
     if not flag:
-        del post['tags'], post['update_dt'], post['description'], post['content']
+        del post['tags'], post['update_dt'], post['description'], post['content'], post['_prefetched_objects_cache']
     
     return post
 
