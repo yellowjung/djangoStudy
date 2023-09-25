@@ -34,7 +34,7 @@ class HomeView(ListView):
         curPage = context['page_obj'].number
         dataDict = {
             'postList' : postList,
-            'pagecnt' : pageCnt,
+            'pageCnt' : pageCnt,
             'curPage' : curPage,
         }
         context['myJson'] = json.dumps(dataDict)

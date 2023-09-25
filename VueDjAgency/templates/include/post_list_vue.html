@@ -74,7 +74,7 @@
         console.log("prevPage()...", this.curPage);
         if (this.curPage <= 1) return;
         else this.curPage = this.curPage - 1;
-        this.fetchPostList(this.cur.Page);
+        this.fetchPostList(this.curPage);
       },
   
       nextPage(){
@@ -101,6 +101,20 @@
         if(this.curPage === page) return 'page-item my-link active';
         else return 'page-item my-link';
      },
+
+     firstPage(){
+      console.log("firstPage()", this.curPage);
+      if(this.curPage <= 1) return;
+      else this.curPage = 1;
+      this.fetchPostList(this.curPage);
+     },
+
+     lastPage(){
+      console.log("lastPage()", this.curPage);
+      if(this.curPage >= this.pagecnt)return;
+      else this.curPage = this.pageCnt;
+      this.fetchPostList(this.curPage);
+     }
   
     },
   }
